@@ -1,33 +1,41 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const App = () => {
   const [politicians, setPoliticians] = useState([]);
+  const [search, setSearch] = useState("");
 
-  async function getPoliticians() {
-    try {
-      const response = await fetch(
-        "https://boolean-spec-frontend.vercel.app/freetestapi/politicians"
-      );
-      const data = await response.json();
-      setPoliticians(data);
-    } catch (error) {
-      console.error("Errore:", error);
-    }
-  }
+  const filteredPoliticians = useMemo(() => {
+    return politicians.filter((politician) => {
+      const isInName = politician.name
+        .toLowerCase()
+        .includes(search.toLocaleLowerCase());
+      const isInBio = politician.biography
+        .toLowerCase()
+        .includes(search.toLocaleLowerCase());
+      return isInName || isInBio;
+    });
+  }, [politicians, search]);
 
   useEffect(() => {
-    getPoliticians();
+    fetch("https://boolean-spec-frontend.vercel.app/freetestapi/politicians")
+      .then((res) => res.json())
+      .then((data) => setPoliticians(data))
+      .catch((error) => console.error(error));
   }, []);
-
-  console.log(politicians);
 
   return (
     <div>
       <h1>Lista dei Politici</h1>
+      <input
+        type="text"
+        placeholder="Cerca un politico..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <ul>
-        {politicians.map((politician) => {
+        {filteredPoliticians.map((politician) => {
           return (
-            <li className="list-element">
+            <li key={politician.id} className="list-element">
               <h3>{politician.name}</h3>
               <img src={politician.image} alt={politician.name} />
               <p>

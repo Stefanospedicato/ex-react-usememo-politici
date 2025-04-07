@@ -1,12 +1,19 @@
 .list-element{
   text-align: center;
-  border: 2px solid black;
+  border: 2px solid lightgrey;
   border-radius: 5%;
   padding: 20px;
   margin: 20px;
+  background-color: lightgrey;
+  list-style: none;
 }
 
 h1{
   text-align: center;
   color: red;
+}
+
+input{
+  
+  width:100%;
 }
