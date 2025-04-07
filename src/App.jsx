@@ -1,4 +1,19 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
+
+function PoliticianCard({ name, image, biography, position }) {
+  return (
+    <li className="list-element">
+      <h3>{name}</h3>
+      <img src={image} alt={name} />
+      <p>
+        Posizione<strong>{position}</strong>
+      </p>
+      <p>{biography}</p>
+    </li>
+  );
+}
+
+const MemoizedCard = memo(PoliticianCard);
 
 const App = () => {
   const [politicians, setPoliticians] = useState([]);
@@ -34,16 +49,7 @@ const App = () => {
       />
       <ul>
         {filteredPoliticians.map((politician) => {
-          return (
-            <li key={politician.id} className="list-element">
-              <h3>{politician.name}</h3>
-              <img src={politician.image} alt={politician.name} />
-              <p>
-                Posizione<strong>{politician.position}</strong>
-              </p>
-              <p>{politician.biography}</p>
-            </li>
-          );
+          return <MemoizedCard key={politician.id} {...politician} />;
         })}
       </ul>
     </div>
