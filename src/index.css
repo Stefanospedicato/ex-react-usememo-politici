@@ -1,0 +1,12 @@
+.list-element{
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 5%;
+  padding: 20px;
+  margin: 20px;
+}
+
+h1{
+  text-align: center;
+  color: red;
+}
